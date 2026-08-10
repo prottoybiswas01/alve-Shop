@@ -8,7 +8,14 @@ import { DEFAULT_COURIER_SETTINGS } from '../src/services/courierService';
 
 async function seedDatabase() {
   console.log('🌱 Starting MongoDB Atlas database seeding...');
-  await connectDB();
+  const connected = await connectDB();
+
+  if (!connected) {
+    console.error('❌ Could not establish database connection. Aborting seed script.');
+    console.error('💡 Please make sure your current IP address is whitelisted (0.0.0.0/0) in MongoDB Atlas Network Access.');
+    process.exit(1);
+    return;
+  }
 
   try {
     // Clean existing
