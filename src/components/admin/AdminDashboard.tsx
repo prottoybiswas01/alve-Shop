@@ -3,6 +3,7 @@ import { useApp } from '../../context/AppContext';
 import { ProductManager } from './ProductManager';
 import { CourierSettingsManager } from './CourierSettingsManager';
 import { CouponManager } from './CouponManager';
+import { SalesAnalyticsChart } from './SalesAnalyticsChart';
 import { printInvoiceHTML } from '../../services/invoiceService';
 import {
   Shield,
@@ -159,6 +160,7 @@ export const AdminDashboard: React.FC = () => {
         {/* TAB 1: OVERVIEW ANALYTICS */}
         {activeTab === 'overview' && (
           <div className="space-y-6">
+            <SalesAnalyticsChart orders={orders} />
             {/* Executive KPI Stats */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 flex items-center gap-4 shadow-xl">

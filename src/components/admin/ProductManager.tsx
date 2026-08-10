@@ -278,13 +278,30 @@ export const ProductManager: React.FC = () => {
           </select>
         </div>
 
-        <button
-          onClick={startCreate}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-bold text-xs shadow-lg shadow-blue-500/25 hover:scale-[1.02] transition-all"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Add New Product (নতুন প্রোডাক্ট যোগ করুন)</span>
-        </button>
+        <div className="flex items-center gap-2">
+          {products.length > 0 && (
+            <button
+              onClick={() => {
+                if (confirm('Are you sure you want to delete ALL catalog products to start fresh in production?')) {
+                  products.forEach((p) => deleteProduct(p.id));
+                }
+              }}
+              className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-800 text-rose-400 hover:text-white hover:bg-rose-600 font-bold text-xs transition-all"
+              title="Delete all items"
+            >
+              <Trash2 className="w-4 h-4" />
+              <span>Clear All Products</span>
+            </button>
+          )}
+
+          <button
+            onClick={startCreate}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-bold text-xs shadow-lg shadow-blue-500/25 hover:scale-[1.02] transition-all"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Add New Product (নতুন প্রোডাক্ট যোগ করুন)</span>
+          </button>
+        </div>
       </div>
 
       {/* Main Products Table */}
