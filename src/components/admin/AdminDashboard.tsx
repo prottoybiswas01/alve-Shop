@@ -131,6 +131,17 @@ export const AdminDashboard: React.FC = () => {
           </button>
 
           <button
+            onClick={() => setActiveTab('coupons')}
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs transition-all ${
+              activeTab === 'coupons'
+                ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/30'
+                : 'text-slate-400 hover:text-white hover:bg-slate-800/80'
+            }`}
+          >
+            <Tag className="w-4 h-4" /> Coupons & Vouchers ({coupons.length})
+          </button>
+
+          <button
             onClick={() => setActiveTab('courier')}
             className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs transition-all ${
               activeTab === 'courier'
@@ -445,7 +456,10 @@ export const AdminDashboard: React.FC = () => {
           </div>
         )}
 
-        {/* TAB 4: COURIER API SETTINGS */}
+        {/* TAB 4: COUPONS & VOUCHERS */}
+        {activeTab === 'coupons' && <CouponManager />}
+
+        {/* TAB 5: COURIER API SETTINGS */}
         {activeTab === 'courier' && <CourierSettingsManager />}
       </main>
     </div>

@@ -1,36 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import { calculateShippingFee } from '../../services/courierService';
-import { X, Truck, CreditCard, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
+import { X, Truck, CreditCard, ShieldCheck, CheckCircle2, ArrowRight, Tag } from 'lucide-react';
 
 export const CheckoutModal: React.FC = () => {
-  const { cart, cartTotal, placeOrder, activeModal, setActiveModal, setActiveInvoiceOrder } = useApp();
+  const {
+    cart,
+    cartTotal,
+    placeOrder,
+    activeModal,
+    setActiveModal,
+    setActiveInvoiceOrder,
+    currentUser,
+    applyCoupon,
+  } = useApp();
 
-  const [fullName, setFullName] = useState('Tanvir Ahmed');
-  const [phone, setPhone] = useState('01712345678');
-  const [email, setEmail] = useState('tanvir@example.com');
+  const [fullName, setFullName] = useState(currentUser?.name || 'Tanvir Ahmed');
+  const [phone, setPhone] = useState(currentUser?.phone || '01712345678');
+  const [email, setEmail] = useState(currentUser?.email || 'tanvir@example.com');
   const [deliveryType, setDeliveryType] = useState<'inside_dhaka' | 'outside_dhaka'>('inside_dhaka');
-  const [district, setDistrict] = useState('Dhaka');
+  const [district, setDistrict] = useState(currentUser?.city || 'Dhaka');
   const [cityZone, setCityZone] = useState('Dhanmondi');
-  const [fullAddress, setFullAddress] = useState('House 45, Road 27, Dhanmondi R/A, Dhaka');
-  const [preferredCourier, setPreferredCourier] = useState<'pathao' | 'steadfast'>('pathao');
-  const [paymentMethod, setPaymentMethod] = useState<'cod' | 'bkash' | 'nagad' | 'card'>('cod');
+  const [fullAddress, setFullAddress] = useState(currentUser?.address || 'House 45, Road 27, Dhanmondi R/A, Dhaka');
+  const [paymentMethod] = useState<'cod' | 'bkash' | 'nagad' | 'card'>('cod');
   const [notes] = useState('');
   const [couponCode, setCouponCode] = useState('');
   const [discountAmount, setDiscountAmount] = useState(0);
+  const [couponMsg, setCouponMsg] = useState('');
+
+  useEffect(() => {
+    if (currentUser) {
+      setFullName(currentUser.name);
+      setPhone(currentUser.phone);
+      setEmail(currentUser.email);
+      if (currentUser.address) setFullAddress(currentUser.address);
+      if (currentUser.city) setDistrict(currentUser.city);
+    }
+  }, [currentUser]);
 
   if (activeModal !== 'checkout' || cart.length === 0) return null;
 
   const shippingFee = calculateShippingFee(deliveryType);
-  const totalPayable = cartTotal + shippingFee - discountAmount;
+  const totalPayable = Math.max(0, cartTotal + shippingFee - discountAmount);
 
   const handleApplyCoupon = (e: React.FormEvent) => {
     e.preventDefault();
-    if (couponCode.toUpperCase() === 'ALVE10' || couponCode.toUpperCase() === 'PROMO500') {
-      setDiscountAmount(500);
-      alert('Coupon applied! ৳500 discount added.');
+    if (!couponCode.trim()) return;
+
+    const res = applyCoupon(couponCode, cartTotal);
+    setCouponMsg(res.message);
+    if (res.success) {
+      setDiscountAmount(res.discountAmount);
     } else {
-      alert('Invalid coupon code. Try "ALVE10"');
+      setDiscountAmount(0);
     }
   };
 
@@ -68,7 +90,7 @@ export const CheckoutModal: React.FC = () => {
       discountAmount,
       totalAmount: totalPayable,
       paymentMethod,
-      paymentStatus: paymentMethod === 'cod' ? 'unpaid' : 'paid',
+      paymentStatus: 'unpaid',
       notes,
       channel: 'online',
     });
@@ -83,12 +105,12 @@ export const CheckoutModal: React.FC = () => {
         {/* Header */}
         <div className="p-6 border-b border-slate-800 flex items-center justify-between sticky top-0 bg-slate-900 z-20">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-blue-500/10 text-blue-400">
+            <div className="p-2.5 rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20">
               <Truck className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-xl font-black text-white">Complete Order & Checkout</h2>
-              <p className="text-xs text-slate-400">Insured express delivery via Pathao & Steadfast Courier</p>
+              <h2 className="text-xl font-black text-white">Express Checkout & Order Confirmation</h2>
+              <p className="text-xs text-slate-400">Doorstep delivery with Cash on Delivery (ক্যাশ অন ডেলিভারি)</p>
             </div>
           </div>
 
@@ -218,100 +240,17 @@ export const CheckoutModal: React.FC = () => {
               </div>
             </div>
 
-            {/* Courier Preference */}
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
-                Preferred Courier Logistics Partner
-              </label>
-              <div className="grid grid-cols-2 gap-3 text-xs">
-                <button
-                  type="button"
-                  onClick={() => setPreferredCourier('pathao')}
-                  className={`p-3 rounded-xl border flex items-center gap-3 transition-all ${
-                    preferredCourier === 'pathao'
-                      ? 'bg-rose-500/10 border-rose-500 text-white'
-                      : 'bg-slate-950 border-slate-800 text-slate-400'
-                  }`}
-                >
-                  <div className="w-8 h-8 rounded-lg bg-rose-600 font-black text-white flex items-center justify-center text-xs">
-                    PTH
-                  </div>
-                  <div className="text-left">
-                    <div className="font-bold text-slate-200">Pathao Courier</div>
-                    <div className="text-[10px] text-slate-400">Live API Dispatch</div>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setPreferredCourier('steadfast')}
-                  className={`p-3 rounded-xl border flex items-center gap-3 transition-all ${
-                    preferredCourier === 'steadfast'
-                      ? 'bg-amber-500/10 border-amber-500 text-white'
-                      : 'bg-slate-950 border-slate-800 text-slate-400'
-                  }`}
-                >
-                  <div className="w-8 h-8 rounded-lg bg-amber-600 font-black text-white flex items-center justify-center text-xs">
-                    STF
-                  </div>
-                  <div className="text-left">
-                    <div className="font-bold text-slate-200">Steadfast Courier</div>
-                    <div className="text-[10px] text-slate-400">Live API Dispatch</div>
-                  </div>
-                </button>
-              </div>
-            </div>
-
-            {/* Payment Method */}
+            {/* Payment Method Option */}
             <div>
               <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
-                <CreditCard className="w-4 h-4 text-purple-400" /> Payment Method
+                <CreditCard className="w-4 h-4 text-purple-400" /> Payment Option
               </h3>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-                <button
-                  type="button"
-                  onClick={() => setPaymentMethod('cod')}
-                  className={`p-2.5 rounded-xl border font-semibold text-center transition-all ${
-                    paymentMethod === 'cod'
-                      ? 'bg-blue-600 text-white border-blue-500'
-                      : 'bg-slate-950 text-slate-400 border-slate-800'
-                  }`}
-                >
-                  Cash on Delivery
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPaymentMethod('bkash')}
-                  className={`p-2.5 rounded-xl border font-semibold text-center transition-all ${
-                    paymentMethod === 'bkash'
-                      ? 'bg-pink-600 text-white border-pink-500'
-                      : 'bg-slate-950 text-slate-400 border-slate-800'
-                  }`}
-                >
-                  bKash Mobile
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPaymentMethod('nagad')}
-                  className={`p-2.5 rounded-xl border font-semibold text-center transition-all ${
-                    paymentMethod === 'nagad'
-                      ? 'bg-orange-600 text-white border-orange-500'
-                      : 'bg-slate-950 text-slate-400 border-slate-800'
-                  }`}
-                >
-                  Nagad Wallet
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPaymentMethod('card')}
-                  className={`p-2.5 rounded-xl border font-semibold text-center transition-all ${
-                    paymentMethod === 'card'
-                      ? 'bg-purple-600 text-white border-purple-500'
-                      : 'bg-slate-950 text-slate-400 border-slate-800'
-                  }`}
-                >
-                  Debit/Credit Card
-                </button>
+              <div className="p-4 rounded-2xl bg-blue-600/10 border border-blue-500/30 text-white flex items-center justify-between text-xs">
+                <div>
+                  <div className="font-bold text-sm text-blue-400">Cash on Delivery (ক্যাশ অন ডেলিভারি)</div>
+                  <div className="text-[11px] text-slate-300 mt-0.5">Pay in cash when you receive your parcel at doorstep</div>
+                </div>
+                <CheckCircle2 className="w-6 h-6 text-emerald-400 flex-shrink-0" />
               </div>
             </div>
           </div>
@@ -339,21 +278,31 @@ export const CheckoutModal: React.FC = () => {
               </div>
 
               {/* Coupon Box */}
-              <div className="flex items-center gap-2 mb-4">
-                <input
-                  type="text"
-                  placeholder="Coupon Code (e.g. ALVE10)"
-                  value={couponCode}
-                  onChange={(e) => setCouponCode(e.target.value)}
-                  className="flex-1 px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-slate-100 placeholder-slate-500 focus:outline-none"
-                />
-                <button
-                  type="button"
-                  onClick={handleApplyCoupon}
-                  className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-xl"
-                >
-                  Apply
-                </button>
+              <div className="space-y-2 mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="relative flex-1">
+                    <Tag className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-3" />
+                    <input
+                      type="text"
+                      placeholder="Coupon Code (e.g. ALVE500)"
+                      value={couponCode}
+                      onChange={(e) => setCouponCode(e.target.value)}
+                      className="w-full pl-8 pr-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white uppercase placeholder-slate-500 focus:outline-none focus:border-purple-500"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleApplyCoupon}
+                    className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold rounded-xl"
+                  >
+                    Apply
+                  </button>
+                </div>
+                {couponMsg && (
+                  <div className={`text-[11px] font-semibold ${discountAmount > 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                    {couponMsg}
+                  </div>
+                )}
               </div>
 
               {/* Cost Calculations */}
@@ -368,7 +317,7 @@ export const CheckoutModal: React.FC = () => {
                 </div>
                 {discountAmount > 0 && (
                   <div className="flex justify-between text-emerald-400 font-semibold">
-                    <span>Discount</span>
+                    <span>Discount Voucher</span>
                     <span>- ৳{discountAmount.toLocaleString('en-BD')}</span>
                   </div>
                 )}
@@ -385,7 +334,7 @@ export const CheckoutModal: React.FC = () => {
                 type="submit"
                 className="w-full py-4 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-[1.01] transition-all"
               >
-                <span>Confirm & Place Order</span>
+                <span>Confirm Order (ক্যাশ অন ডেলিভারি)</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 

@@ -4,11 +4,8 @@ import {
   Search,
   ShoppingBag,
   Heart,
-  Truck,
   Zap,
   X,
-  Sparkles,
-  PhoneCall,
   Menu,
   User as UserIcon,
 } from 'lucide-react';
@@ -25,13 +22,10 @@ export const Header: React.FC = () => {
     setSelectedCategory,
     products,
     setSelectedProduct,
-    orders,
-    setActiveTrackingOrder,
   } = useApp();
 
   const [searchFocused, setSearchFocused] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [trackingIdInput, setTrackingIdInput] = useState('');
 
   const categories = [
     { id: 'all', name: 'All Products' },
@@ -55,54 +49,10 @@ export const Header: React.FC = () => {
         .slice(0, 5)
     : [];
 
-  const handleQuickTrack = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!trackingIdInput.trim()) return;
-    const found = orders.find(
-      (o) =>
-        o.id.toLowerCase() === trackingIdInput.trim().toLowerCase() ||
-        o.courierConsignment?.trackingCode.toLowerCase() === trackingIdInput.trim().toLowerCase()
-    );
 
-    if (found) {
-      setActiveTrackingOrder(found);
-      setActiveModal('tracking');
-    } else {
-      alert(`No order found matching ID or Tracking Code: "${trackingIdInput}"`);
-    }
-  };
 
   return (
     <header className="bg-slate-950 border-b border-slate-800 text-slate-100 sticky top-0 z-40">
-      {/* Top Hotline Bar */}
-      <div className="bg-slate-900/80 border-b border-slate-800/80 px-4 py-1.5 text-xs text-slate-400 flex justify-between items-center">
-        <div className="flex items-center gap-4">
-          <span className="flex items-center gap-1.5 text-blue-400 font-medium">
-            <PhoneCall className="w-3.5 h-3.5" />
-            <span>Sales Hotline: +880 1700-000000</span>
-          </span>
-          <span className="hidden md:inline-block text-slate-600">|</span>
-          <span className="hidden md:inline-block text-emerald-400 font-medium flex items-center gap-1">
-            <Sparkles className="w-3 h-3" /> Same Day Delivery in Dhaka Available
-          </span>
-        </div>
-
-        {/* Quick Order Tracking Search */}
-        <form onSubmit={handleQuickTrack} className="flex items-center gap-1 bg-slate-950 border border-slate-800 rounded-md px-2 py-0.5">
-          <Truck className="w-3 h-3 text-slate-400" />
-          <input
-            type="text"
-            placeholder="Track Order (e.g. ALV-98401)..."
-            value={trackingIdInput}
-            onChange={(e) => setTrackingIdInput(e.target.value)}
-            className="bg-transparent text-xs text-slate-200 placeholder-slate-500 focus:outline-none w-36 sm:w-48"
-          />
-          <button type="submit" className="text-[10px] bg-blue-600 hover:bg-blue-500 text-white px-2 py-0.5 rounded font-bold transition-all">
-            Track
-          </button>
-        </form>
-      </div>
-
       {/* Main Navbar */}
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
         {/* Brand Logo */}

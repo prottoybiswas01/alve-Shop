@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { Product } from '../../types';
 import { useApp } from '../../context/AppContext';
-import { Star, ShoppingBag, Eye, Heart, ShieldCheck, Check } from 'lucide-react';
+import { Star, ShoppingBag, Eye, Heart, ShieldCheck, Check, Zap } from 'lucide-react';
 
 export const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const { addToCart, wishlist, toggleWishlist, setSelectedProduct, setActiveModal } = useApp();
@@ -15,6 +15,12 @@ export const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
     addToCart(product, 1);
     setAddedAnimation(true);
     setTimeout(() => setAddedAnimation(false), 1200);
+  };
+
+  const handleBuyNow = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    addToCart(product, 1);
+    setActiveModal('checkout');
   };
 
   return (
@@ -78,7 +84,7 @@ export const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
             }}
             className="px-4 py-2 bg-slate-900/90 text-white text-xs font-bold rounded-xl border border-slate-700 hover:bg-slate-800 flex items-center gap-1.5 shadow-xl"
           >
-            <Eye className="w-4 h-4" /> Quick Specs
+            <Eye className="w-4 h-4 text-blue-400" /> View Details
           </button>
         </div>
       </div>
@@ -112,29 +118,53 @@ export const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
           </span>
         </div>
 
-        {/* Pricing & Add to Cart */}
-        <div className="flex items-center justify-between pt-2">
+        {/* Pricing */}
+        <div className="flex items-baseline justify-between pt-1">
           <div>
             <div className="text-lg font-black text-white">
               ৳{product.price.toLocaleString('en-BD')}
             </div>
-            {product.originalPrice && (
+            {product.originalPrice && product.originalPrice > product.price && (
               <div className="text-xs text-slate-500 line-through -mt-1">
                 ৳{product.originalPrice.toLocaleString('en-BD')}
               </div>
             )}
           </div>
 
+          <span className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 uppercase font-bold">
+            {product.category}
+          </span>
+        </div>
+
+        {/* Dual Action Buttons: Buy Now & Add to Cart */}
+        <div className="grid grid-cols-2 gap-2 pt-1">
+          <button
+            onClick={handleBuyNow}
+            className="py-2.5 px-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-blue-500/20 active:scale-[0.98] transition-all"
+          >
+            <Zap className="w-3.5 h-3.5 fill-white" />
+            <span>Buy Now</span>
+          </button>
+
           <button
             onClick={handleAddToCart}
-            className={`p-2.5 rounded-xl font-bold transition-all shadow-md flex items-center justify-center ${
+            className={`py-2.5 px-3 rounded-xl font-bold text-xs transition-all border flex items-center justify-center gap-1.5 active:scale-[0.98] ${
               addedAnimation
-                ? 'bg-emerald-600 text-white scale-110 shadow-emerald-500/30'
-                : 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-500/20'
+                ? 'bg-emerald-600 border-emerald-500 text-white shadow-emerald-500/30'
+                : 'bg-slate-950 hover:bg-slate-800 border-slate-800 text-slate-200'
             }`}
-            title="Add to Cart"
           >
-            {addedAnimation ? <Check className="w-4 h-4" /> : <ShoppingBag className="w-4 h-4" />}
+            {addedAnimation ? (
+              <>
+                <Check className="w-3.5 h-3.5" />
+                <span>Added!</span>
+              </>
+            ) : (
+              <>
+                <ShoppingBag className="w-3.5 h-3.5 text-blue-400" />
+                <span>Cart</span>
+              </>
+            )}
           </button>
         </div>
       </div>
