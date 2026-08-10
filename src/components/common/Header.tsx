@@ -10,12 +10,14 @@ import {
   Sparkles,
   PhoneCall,
   Menu,
+  User as UserIcon,
 } from 'lucide-react';
 
 export const Header: React.FC = () => {
   const {
     cartCount,
     wishlist,
+    currentUser,
     setActiveModal,
     searchQuery,
     setSearchQuery,
@@ -71,7 +73,7 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-slate-950 border-b border-slate-800 text-slate-100 sticky top-[37px] z-40">
+    <header className="bg-slate-950 border-b border-slate-800 text-slate-100 sticky top-0 z-40">
       {/* Top Hotline Bar */}
       <div className="bg-slate-900/80 border-b border-slate-800/80 px-4 py-1.5 text-xs text-slate-400 flex justify-between items-center">
         <div className="flex items-center gap-4">
@@ -182,7 +184,34 @@ export const Header: React.FC = () => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
+          {/* User Account / Profile */}
+          {currentUser ? (
+            <button
+              onClick={() => setActiveModal('user_profile')}
+              className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-200 transition-all"
+              title="View Profile & Orders"
+            >
+              <div className="w-7 h-7 rounded-lg bg-blue-600/20 text-blue-400 border border-blue-500/30 flex items-center justify-center font-bold text-xs">
+                {currentUser.name.charAt(0).toUpperCase()}
+              </div>
+              <div className="hidden sm:block text-left">
+                <div className="text-xs font-bold text-white leading-tight truncate max-w-[100px]">
+                  {currentUser.name}
+                </div>
+                <div className="text-[10px] text-blue-400 font-medium leading-tight">My Profile</div>
+              </div>
+            </button>
+          ) : (
+            <button
+              onClick={() => setActiveModal('auth')}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-200 text-xs font-bold transition-all"
+            >
+              <UserIcon className="w-4 h-4 text-blue-400" />
+              <span className="hidden sm:inline">Sign In / Register</span>
+            </button>
+          )}
+
           {/* Wishlist */}
           <button
             onClick={() => alert(`You have ${wishlist.length} item(s) in your wishlist.`)}

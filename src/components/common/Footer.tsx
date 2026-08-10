@@ -113,8 +113,20 @@ export const Footer: React.FC = () => {
       </div>
 
       {/* Copyright */}
-      <div className="bg-slate-900/60 border-t border-slate-800/80 py-4 text-center text-slate-500">
-        © {new Date().getFullYear()} Alve Shop Electronics. All Rights Reserved. Built with React & Tailwind CSS.
+      <div className="bg-slate-900/60 border-t border-slate-800/80 py-4 text-center text-slate-500 flex flex-wrap items-center justify-center gap-4">
+        <span>© {new Date().getFullYear()} Alve Shop Electronics. All Rights Reserved.</span>
+        <span>•</span>
+        <a
+          href="/admin"
+          onClick={(e) => {
+            e.preventDefault();
+            window.history.pushState({}, '', '/admin');
+            window.dispatchEvent(new PopStateEvent('popstate'));
+          }}
+          className="text-slate-400 hover:text-purple-400 font-semibold underline underline-offset-4 transition-colors"
+        >
+          Admin Portal (/admin)
+        </a>
       </div>
     </footer>
   );

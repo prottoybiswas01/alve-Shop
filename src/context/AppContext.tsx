@@ -17,7 +17,11 @@ interface AppContextType {
   // Role & Auth
   currentRole: UserRole;
   setCurrentRole: (role: UserRole) => void;
-  currentUser: User;
+  currentUser: User | null;
+  users: User[];
+  loginUser: (emailOrPhone: string, password?: string) => boolean;
+  registerUser: (userData: Omit<User, 'id' | 'role' | 'createdAt'>) => User;
+  logoutUser: () => void;
   
   // Products
   products: Product[];
@@ -48,8 +52,8 @@ interface AppContextType {
   updateCourierSettings: (newSettings: CourierSettings) => void;
 
   // Modals & Active State
-  activeModal: 'cart' | 'checkout' | 'product_detail' | 'invoice' | 'tracking' | 'pos' | null;
-  setActiveModal: (modal: 'cart' | 'checkout' | 'product_detail' | 'invoice' | 'tracking' | 'pos' | null) => void;
+  activeModal: 'cart' | 'checkout' | 'product_detail' | 'invoice' | 'tracking' | 'pos' | 'auth' | 'user_profile' | null;
+  setActiveModal: (modal: 'cart' | 'checkout' | 'product_detail' | 'invoice' | 'tracking' | 'pos' | 'auth' | 'user_profile' | null) => void;
   selectedProduct: Product | null;
   setSelectedProduct: (product: Product | null) => void;
   activeInvoiceOrder: Order | null;
@@ -72,18 +76,92 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
-const DEMO_USER: User = {
-  id: 'usr-9921',
-  name: 'Alve Merchant',
-  email: 'admin@alveshop.com',
-  phone: '+880 1700-000000',
-  role: 'admin',
-  avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
-};
+const INITIAL_USERS: User[] = [
+  {
+    id: 'usr-customer-1',
+    name: 'Tanvir Ahmed',
+    email: 'tanvir@example.com',
+    phone: '01712345678',
+    role: 'customer',
+    password: '123456',
+    address: 'House 45, Road 27, Dhanmondi R/A',
+    city: 'Dhaka',
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: 'usr-admin-1',
+    name: 'Alve Merchant',
+    email: 'admin@alveshop.com',
+    phone: '+880 1700-000000',
+    role: 'admin',
+    password: 'admin',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
+    createdAt: new Date().toISOString(),
+  },
+];
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentRole, setCurrentRole] = useState<UserRole>('customer');
-  const [currentUser] = useState<User>(DEMO_USER);
+  
+  // Registered Users list
+  const [users, setUsers] = useState<User[]>(() => {
+    const saved = localStorage.getItem('alve_users');
+    return saved ? JSON.parse(saved) : INITIAL_USERS;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('alve_users', JSON.stringify(users));
+  }, [users]);
+
+  // Current Logged-in User
+  const [currentUser, setCurrentUser] = useState<User | null>(() => {
+    const saved = localStorage.getItem('alve_current_user');
+    return saved ? JSON.parse(saved) : INITIAL_USERS[0]; // Default logged in as Tanvir Ahmed
+  });
+
+  useEffect(() => {
+    if (currentUser) {
+      localStorage.setItem('alve_current_user', JSON.stringify(currentUser));
+    } else {
+      localStorage.removeItem('alve_current_user');
+    }
+  }, [currentUser]);
+
+  const loginUser = (emailOrPhone: string, password?: string): boolean => {
+    const found = users.find(
+      (u) =>
+        (u.email.toLowerCase() === emailOrPhone.trim().toLowerCase() ||
+          u.phone.trim() === emailOrPhone.trim()) &&
+        (!password || u.password === password)
+    );
+
+    if (found) {
+      setCurrentUser(found);
+      if (found.role === 'admin') setCurrentRole('admin');
+      showToast(`Welcome back, ${found.name}!`);
+      return true;
+    }
+    return false;
+  };
+
+  const registerUser = (userData: Omit<User, 'id' | 'role' | 'createdAt'>): User => {
+    const newUser: User = {
+      ...userData,
+      id: 'usr-' + Date.now(),
+      role: 'customer',
+      createdAt: new Date().toISOString(),
+    };
+    setUsers((prev) => [newUser, ...prev]);
+    setCurrentUser(newUser);
+    showToast(`Account created! Welcome, ${newUser.name}!`);
+    return newUser;
+  };
+
+  const logoutUser = () => {
+    setCurrentUser(null);
+    setCurrentRole('customer');
+    showToast('Logged out successfully.');
+  };
 
   // Products
   const [products, setProducts] = useState<Product[]>(() => {
@@ -243,7 +321,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   // Modals
-  const [activeModal, setActiveModal] = useState<'cart' | 'checkout' | 'product_detail' | 'invoice' | 'tracking' | 'pos' | null>(null);
+  const [activeModal, setActiveModal] = useState<'cart' | 'checkout' | 'product_detail' | 'invoice' | 'tracking' | 'pos' | 'auth' | 'user_profile' | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [activeInvoiceOrder, setActiveInvoiceOrder] = useState<Order | null>(null);
   const [activeTrackingOrder, setActiveTrackingOrder] = useState<Order | null>(null);
@@ -268,6 +346,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         currentRole,
         setCurrentRole,
         currentUser,
+        users,
+        loginUser,
+        registerUser,
+        logoutUser,
         products,
         addProduct,
         updateProduct,

@@ -6,9 +6,11 @@ export interface User {
   email: string;
   phone: string;
   role: UserRole;
+  password?: string;
   avatar?: string;
   address?: string;
   city?: string;
+  createdAt?: string;
 }
 
 export interface Specification {
