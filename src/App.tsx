@@ -6,6 +6,7 @@ import { ProductGrid } from './components/storefront/ProductGrid';
 import { Footer } from './components/common/Footer';
 import { ModeratorDashboard } from './components/moderator/ModeratorDashboard';
 import { AdminDashboard } from './components/admin/AdminDashboard';
+import { AdminAuthGuard } from './components/admin/AdminAuthGuard';
 import { CartDrawer } from './components/storefront/CartDrawer';
 import { CheckoutModal } from './components/storefront/CheckoutModal';
 import { ProductDetailModal } from './components/storefront/ProductDetailModal';
@@ -67,7 +68,9 @@ const MainAppContent: React.FC = () => {
       {/* Dynamic View based on Route / Role */}
       {isAdminRoute ? (
         <div className="flex-1">
-          <AdminDashboard />
+          <AdminAuthGuard>
+            <AdminDashboard />
+          </AdminAuthGuard>
         </div>
       ) : isModeratorRoute ? (
         <div className="flex-1">
