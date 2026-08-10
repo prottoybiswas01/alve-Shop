@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
-import { X, Truck, CheckCircle2, Clock, PackageCheck, MapPin } from 'lucide-react';
+import { X, Truck, CheckCircle2, Clock, MapPin } from 'lucide-react';
 
 export const OrderTrackingModal: React.FC = () => {
   const { activeTrackingOrder, setActiveTrackingOrder, activeModal, setActiveModal } = useApp();

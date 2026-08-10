@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import { Product } from '../../types';
-import { Plus, Trash2, Edit3, Image, Zap, ShieldCheck, Check } from 'lucide-react';
+import type { Product } from '../../types';
+import { Plus, Trash2, Edit3 } from 'lucide-react';
 
 export const ProductManager: React.FC = () => {
   const { products, addProduct, updateProduct, deleteProduct } = useApp();

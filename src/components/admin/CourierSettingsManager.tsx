@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import { Truck, ShieldCheck, Key, RefreshCw, CheckCircle2, Lock } from 'lucide-react';
+import { Truck, RefreshCw, CheckCircle2 } from 'lucide-react';
 
 export const CourierSettingsManager: React.FC = () => {
   const { courierSettings, updateCourierSettings } = useApp();

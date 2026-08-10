@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Product } from '../../types';
+import type { Product } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { Star, ShoppingBag, Eye, Heart, ShieldCheck, Check } from 'lucide-react';
 

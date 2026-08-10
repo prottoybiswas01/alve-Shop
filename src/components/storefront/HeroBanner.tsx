@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
-import { ArrowRight, ShieldCheck, Sparkles, Truck, Zap } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Sparkles, Truck } from 'lucide-react';
 
 export const HeroBanner: React.FC = () => {
   const { products, setSelectedProduct, setActiveModal } = useApp();

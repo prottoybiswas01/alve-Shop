@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import { Product, POSCartItem } from '../../types';
+import type { Product, POSCartItem } from '../../types';
 import { printInvoiceHTML } from '../../services/invoiceService';
-import { Store, Search, Plus, Minus, Trash2, Printer, CheckCircle2, User, X } from 'lucide-react';
+import { Store, Search, Plus, Minus, Trash2, Printer, X } from 'lucide-react';
 
 export const POSCounter: React.FC = () => {
   const { products, placeOrder, activeModal, setActiveModal, setActiveInvoiceOrder } = useApp();

@@ -1,19 +1,12 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { printInvoiceHTML } from '../../services/invoiceService';
-import { OrderStatus } from '../../types';
 import {
   ShieldAlert,
   Search,
   CheckCircle2,
-  Truck,
   Printer,
   Eye,
-  XCircle,
-  Filter,
-  ArrowUpRight,
-  Clock,
-  Sparkles,
 } from 'lucide-react';
 
 export const ModeratorDashboard: React.FC = () => {
@@ -21,7 +14,6 @@ export const ModeratorDashboard: React.FC = () => {
     orders,
     updateOrderStatus,
     dispatchOrderToCourier,
-    setActiveInvoiceOrder,
     setActiveModal,
     setActiveTrackingOrder,
   } = useApp();

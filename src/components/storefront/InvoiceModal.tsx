@@ -1,7 +1,7 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
 import { printInvoiceHTML } from '../../services/invoiceService';
-import { X, Printer, CheckCircle2, Truck, Download, QrCode } from 'lucide-react';
+import { X, Printer, CheckCircle2, Truck, QrCode } from 'lucide-react';
 
 export const InvoiceModal: React.FC = () => {
   const { activeInvoiceOrder, setActiveInvoiceOrder, activeModal, setActiveModal } = useApp();

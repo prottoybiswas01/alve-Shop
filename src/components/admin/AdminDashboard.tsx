@@ -10,7 +10,6 @@ import {
   Store,
   DollarSign,
   TrendingUp,
-  Users,
   Layers,
 } from 'lucide-react';
 
@@ -19,7 +18,6 @@ export const AdminDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'overview' | 'products' | 'courier'>('overview');
 
   const totalRevenue = orders.reduce((sum, o) => sum + o.totalAmount, 0);
-  const totalItemsSold = orders.reduce((sum, o) => sum + o.items.reduce((iSum, i) => iSum + i.quantity, 0), 0);
   const pathaoOrdersCount = orders.filter((o) => o.courierConsignment?.provider === 'pathao').length;
   const steadfastOrdersCount = orders.filter((o) => o.courierConsignment?.provider === 'steadfast').length;
 

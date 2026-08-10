@@ -15,7 +15,7 @@ export const CheckoutModal: React.FC = () => {
   const [fullAddress, setFullAddress] = useState('House 45, Road 27, Dhanmondi R/A, Dhaka');
   const [preferredCourier, setPreferredCourier] = useState<'pathao' | 'steadfast'>('pathao');
   const [paymentMethod, setPaymentMethod] = useState<'cod' | 'bkash' | 'nagad' | 'card'>('cod');
-  const [notes, setNotes] = useState('');
+  const [notes] = useState('');
   const [couponCode, setCouponCode] = useState('');
   const [discountAmount, setDiscountAmount] = useState(0);
 

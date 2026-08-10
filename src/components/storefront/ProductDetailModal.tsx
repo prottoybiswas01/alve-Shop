@@ -6,7 +6,6 @@ import {
   ShieldCheck,
   Package,
   Truck,
-  Check,
   ShoppingBag,
   Zap,
   Plus,
