@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { ProductManager } from './ProductManager';
 import { CourierSettingsManager } from './CourierSettingsManager';
+import { CouponManager } from './CouponManager';
 import { printInvoiceHTML } from '../../services/invoiceService';
 import {
   Shield,
@@ -19,6 +20,7 @@ import {
   CheckCircle2,
   Users,
   Search,
+  Tag,
 } from 'lucide-react';
 
 export const AdminDashboard: React.FC = () => {
@@ -26,13 +28,14 @@ export const AdminDashboard: React.FC = () => {
     orders,
     products,
     users,
+    coupons,
     setActiveModal,
     updateOrderStatus,
     dispatchOrderToCourier,
     setActiveTrackingOrder,
   } = useApp();
 
-  const [activeTab, setActiveTab] = useState<'overview' | 'products' | 'orders' | 'courier'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'products' | 'orders' | 'coupons' | 'courier'>('overview');
   const [orderSearch, setOrderSearch] = useState('');
   const [orderStatusFilter, setOrderStatusFilter] = useState('all');
   const [dispatchLoadingId, setDispatchLoadingId] = useState<string | null>(null);

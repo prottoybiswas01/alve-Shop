@@ -120,3 +120,13 @@ export interface POSCartItem {
   quantity: number;
   customPrice?: number;
 }
+
+export interface Coupon {
+  id: string;
+  code: string;
+  type: 'fixed' | 'percentage';
+  discountValue: number;
+  minOrderAmount?: number;
+  active: boolean;
+}
+

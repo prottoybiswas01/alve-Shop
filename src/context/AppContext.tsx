@@ -3,6 +3,7 @@ import type {
   CartItem,
   CourierConsignment,
   CourierSettings,
+  Coupon,
   Order,
   OrderStatus,
   Product,
@@ -50,6 +51,13 @@ interface AppContextType {
   // Courier Settings
   courierSettings: CourierSettings;
   updateCourierSettings: (newSettings: CourierSettings) => void;
+
+  // Coupons
+  coupons: Coupon[];
+  addCoupon: (coupon: Omit<Coupon, 'id'>) => void;
+  deleteCoupon: (id: string) => void;
+  toggleCouponActive: (id: string) => void;
+  applyCoupon: (code: string, cartTotalAmount: number) => { success: boolean; discountAmount: number; message: string };
 
   // Modals & Active State
   activeModal: 'cart' | 'checkout' | 'product_detail' | 'invoice' | 'tracking' | 'pos' | 'auth' | 'user_profile' | null;
@@ -288,6 +296,67 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     showToast('Courier API credentials updated.');
   };
 
+  // Coupons System
+  const [coupons, setCoupons] = useState<Coupon[]>(() => {
+    const saved = localStorage.getItem('alve_coupons');
+    return saved
+      ? JSON.parse(saved)
+      : [
+          { id: 'c-1', code: 'ALVE500', type: 'fixed', discountValue: 500, minOrderAmount: 1000, active: true },
+          { id: 'c-2', code: 'PROMO10', type: 'percentage', discountValue: 10, minOrderAmount: 2000, active: true },
+        ];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('alve_coupons', JSON.stringify(coupons));
+  }, [coupons]);
+
+  const addCoupon = (newCoupon: Omit<Coupon, 'id'>) => {
+    const created: Coupon = { ...newCoupon, id: 'c-' + Date.now() };
+    setCoupons((prev) => [created, ...prev]);
+    showToast(`Coupon "${created.code}" created!`);
+  };
+
+  const deleteCoupon = (id: string) => {
+    setCoupons((prev) => prev.filter((c) => c.id !== id));
+    showToast('Coupon deleted.');
+  };
+
+  const toggleCouponActive = (id: string) => {
+    setCoupons((prev) => prev.map((c) => (c.id === id ? { ...c, active: !c.active } : c)));
+  };
+
+  const applyCoupon = (codeInput: string, cartTotalAmount: number) => {
+    const found = coupons.find(
+      (c) => c.code.toLowerCase() === codeInput.trim().toLowerCase() && c.active
+    );
+
+    if (!found) {
+      return { success: false, discountAmount: 0, message: 'Invalid or expired coupon code.' };
+    }
+
+    if (found.minOrderAmount && cartTotalAmount < found.minOrderAmount) {
+      return {
+        success: false,
+        discountAmount: 0,
+        message: `Minimum order amount of ৳${found.minOrderAmount} required for coupon ${found.code}.`,
+      };
+    }
+
+    let discountAmount = 0;
+    if (found.type === 'fixed') {
+      discountAmount = found.discountValue;
+    } else {
+      discountAmount = Math.round((cartTotalAmount * found.discountValue) / 100);
+    }
+
+    return {
+      success: true,
+      discountAmount,
+      message: `Coupon "${found.code}" applied successfully!`,
+    };
+  };
+
   const dispatchOrderToCourier = async (
     orderId: string,
     provider: 'pathao' | 'steadfast'
@@ -369,6 +438,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         dispatchOrderToCourier,
         courierSettings,
         updateCourierSettings,
+        coupons,
+        addCoupon,
+        deleteCoupon,
+        toggleCouponActive,
+        applyCoupon,
         activeModal,
         setActiveModal,
         selectedProduct,
