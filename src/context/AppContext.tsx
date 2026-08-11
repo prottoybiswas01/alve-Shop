@@ -86,17 +86,6 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 
 const INITIAL_USERS: User[] = [
   {
-    id: 'usr-customer-1',
-    name: 'Tanvir Ahmed',
-    email: 'tanvir@example.com',
-    phone: '01712345678',
-    role: 'customer',
-    password: '123456',
-    address: 'House 45, Road 27, Dhanmondi R/A',
-    city: 'Dhaka',
-    createdAt: new Date().toISOString(),
-  },
-  {
     id: 'usr-admin-1',
     name: 'Alve Merchant',
     email: 'admin@alveshop.com',
@@ -124,7 +113,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // Current Logged-in User
   const [currentUser, setCurrentUser] = useState<User | null>(() => {
     const saved = localStorage.getItem('alve_current_user');
-    return saved ? JSON.parse(saved) : INITIAL_USERS[0]; // Default logged in as Tanvir Ahmed
+    return saved ? JSON.parse(saved) : null;
   });
 
   useEffect(() => {

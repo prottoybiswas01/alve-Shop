@@ -29,10 +29,10 @@ export const CouponManager: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-slate-900 border border-slate-800 p-6 rounded-3xl flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-[#111622] border border-slate-800/80 p-6 rounded-2xl flex flex-wrap items-center justify-between gap-4 shadow-xl">
         <div>
           <div className="flex items-center gap-2 text-purple-400 font-bold text-xs uppercase tracking-wider mb-1">
-            <Tag className="w-4 h-4" /> Promotional Discounts & Voucher System
+            <Tag className="w-4 h-4" /> Promotional Vouchers
           </div>
           <h2 className="text-xl font-black text-white">Coupon Code Manager</h2>
           <p className="text-xs text-slate-400">
@@ -42,7 +42,7 @@ export const CouponManager: React.FC = () => {
       </div>
 
       {/* Add Coupon Form */}
-      <form onSubmit={handleSubmit} className="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4">
+      <form onSubmit={handleSubmit} className="bg-[#111622] border border-slate-800/80 p-6 rounded-2xl space-y-4 shadow-xl">
         <div className="text-sm font-bold text-white border-b border-slate-800 pb-2">
           Create New Discount Coupon Code
         </div>
@@ -56,7 +56,7 @@ export const CouponManager: React.FC = () => {
               placeholder="e.g. ALVE500"
               value={code}
               onChange={(e) => setCode(e.target.value)}
-              className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white font-mono font-bold uppercase focus:outline-none focus:border-purple-500"
+              className="w-full px-3 py-2 bg-[#0B0F17] border border-slate-800 rounded-xl text-white font-mono font-bold uppercase focus:outline-none focus:border-purple-500"
             />
           </div>
 
@@ -65,7 +65,7 @@ export const CouponManager: React.FC = () => {
             <select
               value={type}
               onChange={(e) => setType(e.target.value as any)}
-              className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-purple-500"
+              className="w-full px-3 py-2 bg-[#0B0F17] border border-slate-800 rounded-xl text-white focus:outline-none focus:border-purple-500"
             >
               <option value="fixed">Fixed Amount (৳ Discount)</option>
               <option value="percentage">Percentage (% OFF)</option>
@@ -81,7 +81,7 @@ export const CouponManager: React.FC = () => {
               required
               value={discountValue}
               onChange={(e) => setDiscountValue(Number(e.target.value))}
-              className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white font-bold focus:outline-none focus:border-purple-500"
+              className="w-full px-3 py-2 bg-[#0B0F17] border border-slate-800 rounded-xl text-white font-bold focus:outline-none focus:border-purple-500"
             />
           </div>
 
@@ -91,7 +91,7 @@ export const CouponManager: React.FC = () => {
               type="number"
               value={minOrderAmount}
               onChange={(e) => setMinOrderAmount(Number(e.target.value))}
-              className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-purple-500"
+              className="w-full px-3 py-2 bg-[#0B0F17] border border-slate-800 rounded-xl text-white focus:outline-none focus:border-purple-500"
             />
           </div>
         </div>
@@ -107,13 +107,13 @@ export const CouponManager: React.FC = () => {
       </form>
 
       {/* Coupons Table */}
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
+      <div className="bg-[#111622] border border-slate-800/80 rounded-2xl overflow-hidden shadow-xl">
         <table className="w-full text-left text-xs">
           <thead>
-            <tr className="bg-slate-950 text-slate-400 border-b border-slate-800 uppercase font-bold">
+            <tr className="bg-[#090D16] text-slate-400 border-b border-slate-800 uppercase font-bold">
               <th className="p-4">Coupon Code</th>
               <th className="p-4">Discount Rate</th>
-              <th className="p-4">Min Spend required</th>
+              <th className="p-4">Min Spend Required</th>
               <th className="p-4 text-center">Status</th>
               <th className="p-4 text-right">Actions</th>
             </tr>
@@ -142,7 +142,7 @@ export const CouponManager: React.FC = () => {
                 <td className="p-4 text-right">
                   <button
                     onClick={() => deleteCoupon(c.id)}
-                    className="p-1.5 bg-slate-800 text-rose-400 hover:text-white rounded-lg transition-all"
+                    className="p-1.5 bg-slate-900 text-rose-400 hover:text-white rounded-lg transition-all border border-slate-800"
                     title="Delete Coupon"
                   >
                     <Trash2 className="w-4 h-4" />

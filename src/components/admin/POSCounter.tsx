@@ -96,11 +96,11 @@ export const POSCounter: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md overflow-y-auto">
-      <div className="relative bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-6xl max-h-[90vh] overflow-hidden shadow-2xl flex flex-col my-8">
+      <div className="relative bg-[#111622] border border-slate-800 rounded-3xl w-full max-w-6xl max-h-[90vh] overflow-hidden shadow-2xl flex flex-col my-8 text-slate-100">
         {/* Header */}
-        <div className="p-4 sm:p-6 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+        <div className="p-4 sm:p-6 bg-[#0B0F17] border-b border-slate-800 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-purple-500/10 text-purple-400">
+            <div className="p-2.5 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20">
               <Store className="w-6 h-6" />
             </div>
             <div>
@@ -121,39 +121,45 @@ export const POSCounter: React.FC = () => {
         <div className="flex-1 overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-0">
           {/* Left Column: Product Search & Quick Add Grid (7 Cols) */}
           <div className="lg:col-span-7 p-6 border-b lg:border-b-0 lg:border-r border-slate-800 space-y-4 overflow-y-auto max-h-[65vh]">
-            <div className="relative flex items-center bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs">
+            <div className="relative flex items-center bg-[#0B0F17] border border-slate-800 rounded-xl px-3 py-2 text-xs">
               <Search className="w-4 h-4 text-slate-400 mr-2" />
               <input
                 type="text"
-                placeholder="Scan barcode or type product name..."
+                placeholder="Search product name or barcode..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full bg-transparent text-white placeholder-slate-500 focus:outline-none"
               />
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              {filteredProducts.map((product) => (
-                <div
-                  key={product.id}
-                  onClick={() => addToPOSCart(product)}
-                  className="bg-slate-950 border border-slate-800 hover:border-purple-500/50 rounded-xl p-3 cursor-pointer hover:scale-[1.02] transition-all group flex flex-col justify-between"
-                >
-                  <img src={product.thumbnail} alt="" className="w-full h-24 object-cover rounded-lg bg-slate-900 mb-2" />
-                  <div className="text-xs font-bold text-slate-200 line-clamp-1 group-hover:text-purple-400">
-                    {product.name}
+            {filteredProducts.length > 0 ? (
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {filteredProducts.map((product) => (
+                  <div
+                    key={product.id}
+                    onClick={() => addToPOSCart(product)}
+                    className="bg-[#0B0F17] border border-slate-800 hover:border-purple-500/50 rounded-xl p-3 cursor-pointer hover:scale-[1.02] transition-all group flex flex-col justify-between"
+                  >
+                    <img src={product.thumbnail} alt="" className="w-full h-24 object-cover rounded-lg bg-slate-900 mb-2" />
+                    <div className="text-xs font-bold text-slate-200 line-clamp-1 group-hover:text-purple-400">
+                      {product.name}
+                    </div>
+                    <div className="flex items-center justify-between text-xs mt-1">
+                      <span className="font-black text-white">৳{product.price.toLocaleString('en-BD')}</span>
+                      <span className="text-[10px] text-slate-500">{product.stock} in stock</span>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between text-xs mt-1">
-                    <span className="font-black text-white">৳{product.price.toLocaleString('en-BD')}</span>
-                    <span className="text-[10px] text-slate-500">{product.stock} in stock</span>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12 text-xs text-slate-500">
+                No products found. Add products in the Product Manager tab to perform POS sales.
+              </div>
+            )}
           </div>
 
           {/* Right Column: POS Cart & Checkout Actions (5 Cols) */}
-          <div className="lg:col-span-5 p-6 bg-slate-950 flex flex-col justify-between space-y-4">
+          <div className="lg:col-span-5 p-6 bg-[#0B0F17] flex flex-col justify-between space-y-4">
             <div className="space-y-4">
               <div className="text-sm font-bold text-white border-b border-slate-800 pb-2">
                 Current Receipt Cart ({posCart.length} items)
@@ -166,14 +172,14 @@ export const POSCounter: React.FC = () => {
                   placeholder="Customer Name"
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
-                  className="px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-white focus:outline-none"
+                  className="px-3 py-2 bg-[#111622] border border-slate-800 rounded-xl text-white focus:outline-none"
                 />
                 <input
                   type="text"
                   placeholder="Customer Phone"
                   value={customerPhone}
                   onChange={(e) => setCustomerPhone(e.target.value)}
-                  className="px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-white focus:outline-none"
+                  className="px-3 py-2 bg-[#111622] border border-slate-800 rounded-xl text-white focus:outline-none"
                 />
               </div>
 
@@ -182,7 +188,7 @@ export const POSCounter: React.FC = () => {
                 {posCart.map((item) => (
                   <div
                     key={item.product.id}
-                    className="bg-slate-900 border border-slate-800 rounded-xl p-2.5 flex items-center justify-between text-xs"
+                    className="bg-[#111622] border border-slate-800 rounded-xl p-2.5 flex items-center justify-between text-xs"
                   >
                     <div className="min-w-0 pr-2">
                       <div className="font-semibold text-white truncate">{item.product.name}</div>
@@ -234,7 +240,7 @@ export const POSCounter: React.FC = () => {
 
               <button
                 onClick={handleCompleteSale}
-                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xl shadow-purple-500/25 transition-all"
+                className="w-full py-3.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xl shadow-purple-500/25 transition-all"
               >
                 <Printer className="w-4 h-4" /> Complete Sale & Print Cash Receipt
               </button>
