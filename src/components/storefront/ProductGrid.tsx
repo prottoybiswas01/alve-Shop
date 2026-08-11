@@ -26,12 +26,12 @@ export const ProductGrid: React.FC = () => {
   };
 
   return (
-    <div className="space-y-8 pb-12">
+    <div className="space-y-6 sm:space-y-8 pb-12">
       {/* Category or Search active state view */}
       {selectedCategory !== 'all' || searchQuery ? (
         <section className="auramart-container pt-4">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
+            <h2 className="text-lg sm:text-xl font-black text-slate-900 flex items-center gap-2">
               <span>
                 {selectedCategory !== 'all' ? selectedCategory : 'Search Results'}
               </span>
@@ -48,13 +48,13 @@ export const ProductGrid: React.FC = () => {
           </div>
 
           {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-5">
               {filteredProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
           ) : (
-            <div className="bg-white border border-slate-200 rounded-2xl p-12 text-center my-6">
+            <div className="bg-white border border-slate-200 rounded-2xl p-8 sm:p-12 text-center my-6">
               <h3 className="text-base font-bold text-slate-800 mb-1">No products found</h3>
               <p className="text-xs text-slate-500 mb-4">Try clearing your filters or searching for something else.</p>
               <button
@@ -70,8 +70,8 @@ export const ProductGrid: React.FC = () => {
         <>
           {/* Section 1: New Arrivals */}
           <section className="auramart-container">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <h2 className="text-base sm:text-lg font-black text-slate-900 flex items-center gap-2">
                 <span>New Arrivals</span>
               </h2>
               <button
@@ -83,7 +83,7 @@ export const ProductGrid: React.FC = () => {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-5">
               {newArrivals.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
@@ -104,22 +104,22 @@ export const ProductGrid: React.FC = () => {
               </div>
 
               <div className="text-center border-l border-slate-100 py-1">
-                <div className="text-lg font-black text-[#FF5500]">3k+</div>
+                <div className="text-base sm:text-lg font-black text-[#FF5500]">3k+</div>
                 <div className="text-[10px] text-slate-500 font-medium">Verified Sellers</div>
               </div>
 
               <div className="text-center border-l border-slate-100 py-1">
-                <div className="text-lg font-black text-emerald-600">50k+</div>
+                <div className="text-base sm:text-lg font-black text-emerald-600">50k+</div>
                 <div className="text-[10px] text-slate-500 font-medium">Happy Buyers</div>
               </div>
 
               <div className="text-center border-l border-slate-100 py-1">
-                <div className="text-lg font-black text-amber-500">10k+</div>
+                <div className="text-base sm:text-lg font-black text-amber-500">10k+</div>
                 <div className="text-[10px] text-slate-500 font-medium">Active Products</div>
               </div>
 
               <div className="text-center border-l border-slate-100 py-1">
-                <div className="text-lg font-black text-rose-500">45k+</div>
+                <div className="text-base sm:text-lg font-black text-rose-500">45k+</div>
                 <div className="text-[10px] text-slate-500 font-medium">Orders Delivered</div>
               </div>
             </div>
@@ -127,8 +127,8 @@ export const ProductGrid: React.FC = () => {
 
           {/* Section 3: Flash Deals */}
           <section className="auramart-container">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <h2 className="text-base sm:text-lg font-black text-slate-900 flex items-center gap-2">
                 <Flame className="w-5 h-5 text-[#FF5500] fill-[#FF5500]" />
                 <span>Flash Deals</span>
               </h2>
@@ -141,7 +141,7 @@ export const ProductGrid: React.FC = () => {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-5">
               {flashDeals.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
@@ -150,7 +150,7 @@ export const ProductGrid: React.FC = () => {
 
           {/* Section 4: 4 Value Proposition Cards */}
           <section className="auramart-container">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
               <div className="bg-white border border-slate-200/80 rounded-2xl p-4 flex items-center gap-3.5 shadow-2xs">
                 <div className="p-3 rounded-xl bg-orange-50 text-[#FF5500]">
                   <Truck className="w-6 h-6" />
@@ -195,12 +195,12 @@ export const ProductGrid: React.FC = () => {
 
           {/* Section 5: Seller Center Dark Promo Callout Banner */}
           <section className="auramart-container">
-            <div className="bg-[#181818] rounded-2xl p-6 sm:p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+            <div className="bg-[#181818] rounded-2xl p-5 sm:p-8 text-white flex flex-col md:flex-row items-center justify-between gap-5 shadow-xl">
               <div className="space-y-2 text-center md:text-left">
                 <span className="text-[10px] font-black tracking-widest text-[#FF5500] uppercase">
                   SELLER CENTER
                 </span>
-                <h3 className="text-2xl font-black tracking-tight">Sell on AuraMart</h3>
+                <h3 className="text-xl sm:text-2xl font-black tracking-tight">Sell on AuraMart</h3>
                 <p className="text-xs text-slate-400 max-w-xl">
                   Grow your business and showcase your products to thousands of customers by registering as a merchant store.
                 </p>

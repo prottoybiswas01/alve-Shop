@@ -26,6 +26,7 @@ export const Header: React.FC = () => {
 
   const [searchFocused, setSearchFocused] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
 
   const categoriesList = [
@@ -65,12 +66,13 @@ export const Header: React.FC = () => {
   return (
     <header className="bg-white border-b border-neutral-200 text-slate-800 sticky top-0 z-40 shadow-xs">
       {/* Main Upper Header */}
-      <div className="auramart-container py-3.5 flex items-center justify-between gap-4">
+      <div className="auramart-container py-3 flex items-center justify-between gap-3">
         {/* Logo Section */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-2 rounded-lg bg-neutral-100 border border-neutral-200 text-slate-700 md:hidden"
+            aria-label="Toggle mobile menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -82,11 +84,11 @@ export const Header: React.FC = () => {
               setSelectedCategory('all');
               setSearchQuery('');
             }}
-            className="flex items-center gap-3 group cursor-pointer"
+            className="flex items-center gap-2.5 group cursor-pointer"
           >
-            <div className="w-11 h-11 rounded-2xl bg-[#FF5500] flex items-center justify-center text-white shadow-md shadow-orange-500/20 group-hover:scale-105 transition-transform">
+            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-2xl bg-[#FF5500] flex items-center justify-center text-white shadow-md shadow-orange-500/20 group-hover:scale-105 transition-transform flex-shrink-0">
               <svg
-                className="w-7 h-7 fill-current"
+                className="w-5 h-5 sm:w-7 sm:h-7 fill-current"
                 viewBox="0 0 24 24"
               >
                 <path d="M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3zm7 17H5V8h14v12z" />
@@ -94,19 +96,19 @@ export const Header: React.FC = () => {
             </div>
             <div>
               <div className="flex items-baseline gap-0.5">
-                <span className="text-2xl font-black tracking-tight text-slate-900">
+                <span className="text-xl sm:text-2xl font-black tracking-tight text-slate-900">
                   Aura<span className="text-[#FF5500]">Mart</span>
                 </span>
                 <span className="text-[10px] font-bold text-slate-600">®</span>
               </div>
-              <div className="text-[10px] text-slate-600 font-semibold tracking-tight -mt-1">
+              <div className="text-[9px] sm:text-[10px] text-slate-600 font-semibold tracking-tight -mt-1 hidden sm:block">
                 Shop More, Sell More, Together
               </div>
             </div>
           </a>
         </div>
 
-        {/* Global Search Bar */}
+        {/* Global Search Bar (Desktop View) */}
         <div className="relative flex-1 max-w-2xl hidden md:block">
           <div
             className={`flex items-center bg-white border rounded-full overflow-hidden transition-all ${
@@ -115,7 +117,6 @@ export const Header: React.FC = () => {
                 : 'border-slate-300 hover:border-slate-400'
             }`}
           >
-            {/* Search Input */}
             <input
               type="text"
               placeholder="Search for laptops, smartphones, pickles, honey..."
@@ -135,7 +136,6 @@ export const Header: React.FC = () => {
               </button>
             )}
 
-            {/* Category Dropdown Button */}
             <div className="relative border-l border-slate-200">
               <button
                 type="button"
@@ -166,13 +166,11 @@ export const Header: React.FC = () => {
               )}
             </div>
 
-            {/* Orange Search Action Button */}
             <button className="px-6 py-3 bg-[#FF5500] hover:bg-[#e04b00] text-white font-bold text-xs flex items-center justify-center transition-colors">
               <Search className="w-4 h-4" />
             </button>
           </div>
 
-          {/* Search Preview Dropdown */}
           {searchFocused && searchResults.length > 0 && (
             <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden z-50 divide-y divide-slate-100">
               {searchResults.map((prod) => (
@@ -204,7 +202,16 @@ export const Header: React.FC = () => {
         </div>
 
         {/* Right Controls */}
-        <div className="flex items-center gap-4 sm:gap-6">
+        <div className="flex items-center gap-2 sm:gap-5">
+          {/* Mobile Search Trigger Icon */}
+          <button
+            onClick={() => setMobileSearchOpen(!mobileSearchOpen)}
+            className="p-2 text-slate-700 hover:text-[#FF5500] md:hidden"
+            aria-label="Toggle search"
+          >
+            <Search className="w-5 h-5 text-[#FF5500]" />
+          </button>
+
           {/* Sign In / Account */}
           {currentUser ? (
             <button
@@ -222,10 +229,10 @@ export const Header: React.FC = () => {
           ) : (
             <button
               onClick={() => setActiveModal('auth')}
-              className="flex items-center gap-2 text-slate-700 hover:text-[#FF5500] font-bold text-xs transition-colors"
+              className="flex items-center gap-1.5 text-slate-700 hover:text-[#FF5500] font-bold text-xs transition-colors"
             >
               <UserIcon className="w-5 h-5 text-[#FF5500]" />
-              <span className="hidden sm:inline">Sign In / My Account</span>
+              <span className="hidden sm:inline">Sign In</span>
             </button>
           )}
 
@@ -247,13 +254,13 @@ export const Header: React.FC = () => {
             )}
           </button>
 
-          {/* Cart Drawer */}
+          {/* Cart Drawer Button */}
           <button
             onClick={() => setActiveModal('cart')}
-            className="flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200/80 hover:border-[#FF5500] transition-all group"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-50 border border-orange-200/80 hover:border-[#FF5500] transition-all group"
           >
-            <div className="relative w-8 h-8 rounded-full bg-[#FF5500] text-white flex items-center justify-center">
-              <ShoppingBag className="w-4 h-4" />
+            <div className="relative w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#FF5500] text-white flex items-center justify-center">
+              <ShoppingBag className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               <span className="absolute -top-1 -right-1 w-4 h-4 bg-slate-900 text-white rounded-full text-[9px] font-black flex items-center justify-center border border-white">
                 {cartCount}
               </span>
@@ -270,8 +277,54 @@ export const Header: React.FC = () => {
         </div>
       </div>
 
-      {/* Dynamic Sub Navigation Links Bar */}
-      <div className="bg-[#FAF5EE] border-t border-b border-orange-100/70">
+      {/* Mobile Search Bar Expansion */}
+      {mobileSearchOpen && (
+        <div className="px-4 py-2 bg-slate-50 border-t border-b border-slate-200 md:hidden">
+          <div className="flex items-center bg-white border border-slate-300 rounded-full px-3 py-2 text-xs">
+            <Search className="w-4 h-4 text-slate-400 mr-2" />
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-transparent text-slate-800 focus:outline-none"
+            />
+            {searchQuery && (
+              <button onClick={() => setSearchQuery('')} className="p-1 text-slate-400">
+                <X className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Mobile Menu Drawer */}
+      {mobileMenuOpen && (
+        <div className="px-4 py-3 bg-[#FAF5EE] border-t border-b border-orange-100 md:hidden space-y-2 text-xs font-bold">
+          <div className="text-[10px] text-slate-500 uppercase tracking-wider font-extrabold pb-1">
+            Product Categories
+          </div>
+          {categoriesList.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => {
+                setSelectedCategory(cat.id);
+                setMobileMenuOpen(false);
+              }}
+              className={`w-full text-left px-3 py-2 rounded-xl transition-all ${
+                selectedCategory === cat.id
+                  ? 'bg-[#FF5500] text-white'
+                  : 'bg-white text-slate-700 border border-slate-200'
+              }`}
+            >
+              {cat.name}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Desktop Sub Navigation Links Bar */}
+      <div className="bg-[#FAF5EE] border-t border-b border-orange-100/70 hidden md:block">
         <div className="auramart-container flex items-center justify-between gap-6 overflow-x-auto no-scrollbar py-2 text-xs font-bold text-slate-700">
           <div className="flex items-center gap-6 sm:gap-8 min-w-max">
             {navItems.map((item) => (
