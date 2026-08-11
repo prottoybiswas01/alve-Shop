@@ -23,7 +23,7 @@ export interface Product {
   name: string;
   slug: string;
   brand: string;
-  category: 'laptops' | 'smartphones' | 'smartwatches' | 'audio' | 'gaming' | 'components';
+  category: string;
   price: number;
   originalPrice?: number;
   discountPercentage?: number;

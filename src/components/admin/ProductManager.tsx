@@ -31,9 +31,7 @@ export const ProductManager: React.FC = () => {
   // Form State
   const [name, setName] = useState('');
   const [brand, setBrand] = useState('');
-  const [category, setCategory] = useState<
-    'laptops' | 'smartphones' | 'smartwatches' | 'audio' | 'gaming' | 'components'
-  >('laptops');
+  const [category, setCategory] = useState<string>('laptops');
   const [price, setPrice] = useState<number>(0);
   const [originalPrice, setOriginalPrice] = useState<number>(0);
   const [discountPercentage, setDiscountPercentage] = useState<number>(0);

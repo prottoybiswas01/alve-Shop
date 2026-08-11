@@ -4,20 +4,15 @@ import {
   Search,
   ShoppingBag,
   Heart,
-  Zap,
+  User as UserIcon,
+  ChevronDown,
   X,
   Menu,
-  User as UserIcon,
-  ShieldCheck,
-  Truck,
-  Sparkles,
-  ChevronDown,
 } from 'lucide-react';
 
 export const Header: React.FC = () => {
   const {
     cartCount,
-    cartTotal,
     wishlist,
     currentUser,
     setActiveModal,
@@ -31,18 +26,18 @@ export const Header: React.FC = () => {
 
   const [searchFocused, setSearchFocused] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
 
-  const categories = [
-    { id: 'all', name: 'All Electronics' },
-    { id: 'laptops', name: 'Laptops & Mac' },
-    { id: 'smartphones', name: 'Smartphones' },
-    { id: 'smartwatches', name: 'Smartwatches' },
-    { id: 'audio', name: 'Audio & Sound' },
-    { id: 'gaming', name: 'Gaming Consoles' },
-    { id: 'components', name: 'PC Components' },
+  const categoriesList = [
+    { id: 'all', name: 'All Categories' },
+    { id: 'Honey & Spices', name: 'Honey & Spices' },
+    { id: 'Pickles & Preserves', name: 'Pickles & Preserves' },
+    { id: 'Audio & Electronics', name: 'Audio & Electronics' },
+    { id: 'Daily Essentials', name: 'Daily Essentials' },
+    { id: 'Stationeries', name: 'Stationeries' },
+    { id: 'Groceries', name: 'Groceries' },
   ];
 
-  // Search Results preview
   const searchResults = searchQuery.trim()
     ? products
         .filter(
@@ -54,40 +49,18 @@ export const Header: React.FC = () => {
         .slice(0, 5)
     : [];
 
+  const currentCategoryLabel =
+    categoriesList.find((c) => c.id === selectedCategory)?.name || 'All Categories';
+
   return (
-    <header className="bg-slate-950/95 border-b border-slate-800 text-slate-100 sticky top-0 z-40 backdrop-blur-md">
-      {/* Top E-Commerce Announcement Ticker */}
-      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border-b border-slate-800/80 px-4 py-1.5 text-[11px] text-slate-300">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1.5 text-blue-400 font-bold">
-              <Truck className="w-3.5 h-3.5" />
-              <span>Express Delivery in Dhaka (Pathao & Steadfast)</span>
-            </span>
-            <span className="hidden md:inline-block text-slate-700">|</span>
-            <span className="hidden md:flex items-center gap-1 text-emerald-400 font-bold">
-              <ShieldCheck className="w-3.5 h-3.5" /> 100% Genuine Official Warranty
-            </span>
-          </div>
-
-          <div className="flex items-center gap-4 font-medium text-slate-400">
-            <span className="hidden sm:inline-block text-amber-400 font-bold flex items-center gap-1">
-              <Sparkles className="w-3 h-3" /> Cash on Delivery Available Nationwide
-            </span>
-            <span className="bg-slate-800 px-2 py-0.5 rounded text-[10px] font-bold text-slate-200 uppercase">
-              BDT (৳)
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Navbar */}
-      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4 sm:gap-6">
-        {/* Brand Logo */}
+    <header className="bg-white border-b border-neutral-200 text-slate-800 sticky top-0 z-40 shadow-xs">
+      {/* Main Upper Header */}
+      <div className="auramart-container py-3.5 flex items-center justify-between gap-4">
+        {/* Logo Section */}
         <div className="flex items-center gap-3">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 md:hidden"
+            className="p-2 rounded-lg bg-neutral-100 border border-neutral-200 text-slate-700 md:hidden"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -99,63 +72,100 @@ export const Header: React.FC = () => {
               setSelectedCategory('all');
               setSearchQuery('');
             }}
-            className="flex items-center gap-2 group cursor-pointer"
+            className="flex items-center gap-3 group cursor-pointer"
           >
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/25 group-hover:scale-105 transition-all">
-              <Zap className="w-6 h-6 fill-white" />
+            {/* AuraMart Custom Vector Logo */}
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#FF4500] to-[#FF6B00] flex items-center justify-center shadow-md shadow-orange-500/20 group-hover:scale-105 transition-transform">
+              <svg
+                className="w-8 h-8 text-white fill-current"
+                viewBox="0 0 24 24"
+              >
+                <path d="M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3zm7 17H5V8h14v12zm-7-8c-1.66 0-3-1.34-3-3H7c0 2.76 2.24 5 5 5s5-2.24 5-5h-2c0 1.66-1.34 3-3 3z" />
+              </svg>
             </div>
             <div>
-              <div className="text-xl font-black tracking-tight text-white flex items-center gap-1">
-                <span>Alve</span>
-                <span className="text-blue-500">Shop</span>
+              <div className="flex items-baseline gap-0.5">
+                <span className="text-2xl font-black tracking-tight text-slate-900 font-sans">
+                  Aura<span className="text-[#FF5500]">Mart</span>
+                </span>
+                <span className="text-[10px] font-bold text-slate-600">®</span>
               </div>
-              <div className="text-[9px] uppercase tracking-widest text-slate-400 font-bold -mt-1">
-                Flagship Electronics
+              <div className="text-[10px] text-slate-600 font-semibold tracking-tight -mt-1">
+                Shop More, Sell More, Together
               </div>
             </div>
           </a>
         </div>
 
-        {/* Global Search Bar (Daraz & Amazon Style) */}
+        {/* Global Search Bar (AuraMart Custom Pill Search with Dropdown) */}
         <div className="relative flex-1 max-w-2xl hidden md:block">
           <div
-            className={`flex items-center bg-slate-900 border rounded-2xl overflow-hidden transition-all ${
+            className={`flex items-center bg-white border rounded-full overflow-hidden transition-all ${
               searchFocused
-                ? 'border-blue-500 shadow-lg shadow-blue-500/10 bg-slate-900'
-                : 'border-slate-800 hover:border-slate-700'
+                ? 'border-[#FF5500] ring-2 ring-orange-500/10 shadow-md'
+                : 'border-slate-300 hover:border-slate-400'
             }`}
           >
-            <div className="pl-4 pr-2 text-slate-400">
-              <Search className="w-4 h-4" />
-            </div>
-
+            {/* Search Input */}
             <input
               type="text"
-              placeholder="Search laptops, smartphones, headphones, gaming accessories..."
+              placeholder="Search for products..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => setSearchFocused(true)}
               onBlur={() => setTimeout(() => setSearchFocused(false), 200)}
-              className="w-full py-2.5 px-2 bg-transparent text-slate-100 text-xs placeholder-slate-500 focus:outline-none"
+              className="w-full py-2.5 px-5 bg-transparent text-slate-800 text-xs placeholder-slate-400 focus:outline-none"
             />
 
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="p-1 text-slate-400 hover:text-white mr-2"
+                className="p-1 text-slate-400 hover:text-slate-600 mr-1"
               >
                 <X className="w-4 h-4" />
               </button>
             )}
 
-            <button className="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs flex items-center gap-1 transition-all">
-              <span>Search</span>
+            {/* Category Dropdown Button */}
+            <div className="relative border-l border-slate-200">
+              <button
+                type="button"
+                onClick={() => setCategoryDropdownOpen(!categoryDropdownOpen)}
+                className="px-4 py-2.5 text-xs font-medium text-slate-600 hover:text-slate-900 flex items-center gap-1.5 whitespace-nowrap"
+              >
+                <span>{currentCategoryLabel}</span>
+                <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+              </button>
+
+              {categoryDropdownOpen && (
+                <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-slate-200 rounded-xl shadow-xl z-50 py-1 font-medium text-xs">
+                  {categoriesList.map((cat) => (
+                    <button
+                      key={cat.id}
+                      onClick={() => {
+                        setSelectedCategory(cat.id);
+                        setCategoryDropdownOpen(false);
+                      }}
+                      className={`w-full text-left px-4 py-2 hover:bg-orange-50 hover:text-[#FF5500] transition-colors ${
+                        selectedCategory === cat.id ? 'text-[#FF5500] font-bold bg-orange-50/50' : 'text-slate-700'
+                      }`}
+                    >
+                      {cat.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Orange Action Button */}
+            <button className="px-6 py-3 bg-[#FF5500] hover:bg-[#e04b00] text-white font-bold text-xs flex items-center justify-center transition-colors">
+              <Search className="w-4 h-4" />
             </button>
           </div>
 
-          {/* Search Results Dropdown Preview */}
+          {/* Search Preview Dropdown */}
           {searchFocused && searchResults.length > 0 && (
-            <div className="absolute top-full left-0 right-0 mt-2 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden z-50 divide-y divide-slate-800">
+            <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden z-50 divide-y divide-slate-100">
               {searchResults.map((prod) => (
                 <div
                   key={prod.id}
@@ -164,18 +174,18 @@ export const Header: React.FC = () => {
                     setActiveModal('product_detail');
                     setSearchFocused(false);
                   }}
-                  className="p-3 flex items-center gap-3 hover:bg-slate-800/60 cursor-pointer transition-colors"
+                  className="p-3 flex items-center gap-3 hover:bg-orange-50/40 cursor-pointer transition-colors"
                 >
                   <img
                     src={prod.thumbnail}
                     alt={prod.name}
-                    className="w-10 h-10 object-cover rounded-lg bg-slate-950"
+                    className="w-10 h-10 object-cover rounded-lg bg-slate-100"
                   />
                   <div className="flex-1 min-w-0">
-                    <div className="text-xs font-bold text-white truncate">{prod.name}</div>
-                    <div className="text-[10px] text-blue-400 font-semibold">{prod.brand}</div>
+                    <div className="text-xs font-bold text-slate-900 truncate">{prod.name}</div>
+                    <div className="text-[10px] text-slate-500 font-medium">{prod.brand}</div>
                   </div>
-                  <div className="text-xs font-black text-white">
+                  <div className="text-xs font-black text-[#FF5500]">
                     ৳{prod.price.toLocaleString('en-BD')}
                   </div>
                 </div>
@@ -184,8 +194,32 @@ export const Header: React.FC = () => {
           )}
         </div>
 
-        {/* Header Action Buttons */}
-        <div className="flex items-center gap-3">
+        {/* Right User Controls */}
+        <div className="flex items-center gap-4 sm:gap-6">
+          {/* Sign In / My Account */}
+          {currentUser ? (
+            <button
+              onClick={() => setActiveModal('user_profile')}
+              className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+            >
+              <div className="w-8 h-8 rounded-full bg-orange-100 border border-orange-200 text-[#FF5500] font-bold flex items-center justify-center text-xs">
+                {currentUser.name.charAt(0).toUpperCase()}
+              </div>
+              <div className="hidden lg:block text-left">
+                <div className="text-xs font-bold text-slate-800 leading-tight">{currentUser.name}</div>
+                <div className="text-[10px] text-slate-500 font-medium">My Account</div>
+              </div>
+            </button>
+          ) : (
+            <button
+              onClick={() => setActiveModal('auth')}
+              className="flex items-center gap-2 text-slate-700 hover:text-[#FF5500] font-bold text-xs transition-colors"
+            >
+              <UserIcon className="w-5 h-5 text-[#FF5500]" />
+              <span className="hidden sm:inline">Sign In / My Account</span>
+            </button>
+          )}
+
           {/* Wishlist */}
           <button
             onClick={() => {
@@ -193,79 +227,123 @@ export const Header: React.FC = () => {
                 alert('Your Wishlist is currently empty! Click the heart icon on any product to save items.');
               }
             }}
-            className="relative p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 transition-all hidden sm:flex items-center gap-2"
-            title="Wishlist"
+            className="relative flex items-center gap-1.5 text-slate-700 hover:text-[#FF5500] font-bold text-xs transition-colors"
           >
-            <Heart className={`w-5 h-5 ${wishlist.length > 0 ? 'text-rose-500 fill-rose-500' : ''}`} />
+            <Heart className={`w-5 h-5 ${wishlist.length > 0 ? 'text-rose-500 fill-rose-500' : 'text-[#FF5500]'}`} />
+            <span className="hidden sm:inline">Wishlist</span>
             {wishlist.length > 0 && (
-              <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-rose-600 text-white rounded-full text-[10px] font-black flex items-center justify-center border-2 border-slate-950">
+              <span className="absolute -top-2 -right-2 w-4 h-4 bg-rose-500 text-white rounded-full text-[10px] font-bold flex items-center justify-center">
                 {wishlist.length}
               </span>
             )}
           </button>
 
-          {/* Cart Drawer Trigger */}
+          {/* My Cart Pill Component */}
           <button
             onClick={() => setActiveModal('cart')}
-            className="relative p-2.5 px-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-blue-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+            className="flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-orange-50/80 border border-orange-200/80 hover:border-[#FF5500] transition-all shadow-2xs group"
           >
-            <div className="relative">
-              <ShoppingBag className="w-5 h-5" />
-              {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 w-4 h-4 bg-emerald-500 text-slate-950 rounded-full text-[10px] font-black flex items-center justify-center">
-                  {cartCount}
-                </span>
-              )}
+            <div className="relative w-8 h-8 rounded-full bg-[#FF5500] text-white flex items-center justify-center">
+              <ShoppingBag className="w-4 h-4" />
+              <span className="absolute -top-1 -right-1 w-4 h-4 bg-slate-900 text-white rounded-full text-[9px] font-black flex items-center justify-center border border-white">
+                {cartCount}
+              </span>
             </div>
-            <div className="hidden sm:block text-left">
-              <div className="text-[10px] text-blue-200 uppercase font-semibold">My Cart</div>
-              <div className="font-black text-xs leading-none">৳{cartTotal.toLocaleString('en-BD')}</div>
+            <div className="text-left hidden sm:block">
+              <div className="text-xs font-black text-slate-900 group-hover:text-[#FF5500] transition-colors leading-tight">
+                My Cart
+              </div>
+              <div className="text-[10px] text-slate-500 font-medium leading-none mt-0.5">
+                {cartCount} items
+              </div>
             </div>
           </button>
-
-          {/* User Account Button (Daraz Style Customer Portal) */}
-          {currentUser ? (
-            <button
-              onClick={() => setActiveModal('user_profile')}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-purple-500/50 transition-all text-xs"
-            >
-              <div className="w-7 h-7 rounded-lg bg-purple-600 text-white font-bold flex items-center justify-center text-xs shadow">
-                {currentUser.name.charAt(0).toUpperCase()}
-              </div>
-              <div className="hidden lg:block text-left">
-                <div className="text-white font-bold text-xs line-clamp-1">{currentUser.name}</div>
-                <div className="text-[10px] text-purple-400 font-semibold uppercase">My Account</div>
-              </div>
-              <ChevronDown className="w-3.5 h-3.5 text-slate-400 hidden lg:block" />
-            </button>
-          ) : (
-            <button
-              onClick={() => setActiveModal('auth')}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-200 hover:text-white font-bold text-xs transition-all"
-            >
-              <UserIcon className="w-4 h-4 text-blue-400" />
-              <span>Sign In</span>
-            </button>
-          )}
         </div>
       </div>
 
-      {/* Category Navigation Pills Bar */}
-      <div className="bg-slate-900/80 border-t border-slate-800/80">
-        <div className="max-w-7xl mx-auto px-4 flex items-center gap-2 overflow-x-auto no-scrollbar py-2.5">
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setSelectedCategory(cat.id)}
-              className={`px-4 py-1.5 rounded-xl font-bold text-xs whitespace-nowrap transition-all ${
-                selectedCategory === cat.id
-                  ? 'bg-blue-600 text-white shadow-md shadow-blue-500/30'
-                  : 'bg-slate-950/60 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700'
+      {/* Sub Navigation Links Bar */}
+      <div className="bg-[#FAF5EE] border-t border-b border-orange-100/70">
+        <div className="auramart-container flex items-center justify-between gap-6 overflow-x-auto no-scrollbar py-2 text-xs font-bold text-slate-700">
+          <div className="flex items-center gap-6 sm:gap-8 min-w-max">
+            <a
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
+                setSelectedCategory('all');
+              }}
+              className={`relative py-1 transition-colors ${
+                selectedCategory === 'all'
+                  ? 'text-[#FF5500] font-black'
+                  : 'hover:text-[#FF5500]'
               }`}
             >
-              {cat.name}
-            </button>
-          ))}
+              <span>Home</span>
+              {selectedCategory === 'all' && (
+                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#FF5500] rounded-full" />
+              )}
+            </a>
+
+            <a
+              href="#"
+              onClick={(e) => e.preventDefault()}
+              className="hover:text-[#FF5500] transition-colors"
+            >
+              Shop
+            </a>
+
+            <div className="relative group cursor-pointer flex items-center gap-1">
+              <span className="hover:text-[#FF5500] transition-colors">Categories</span>
+              <ChevronDown className="w-3 h-3 text-slate-500" />
+            </div>
+
+            <a
+              href="#"
+              onClick={(e) => e.preventDefault()}
+              className="hover:text-[#FF5500] transition-colors"
+            >
+              Deals
+            </a>
+
+            <a
+              href="#"
+              onClick={(e) => e.preventDefault()}
+              className="hover:text-[#FF5500] transition-colors"
+            >
+              Best Sellers
+            </a>
+
+            <a
+              href="#"
+              onClick={(e) => e.preventDefault()}
+              className="hover:text-[#FF5500] transition-colors"
+            >
+              New Arrivals
+            </a>
+
+            <a
+              href="#"
+              onClick={(e) => e.preventDefault()}
+              className="hover:text-[#FF5500] transition-colors"
+            >
+              Blog
+            </a>
+
+            <a
+              href="#"
+              onClick={(e) => e.preventDefault()}
+              className="hover:text-[#FF5500] transition-colors"
+            >
+              Brands
+            </a>
+
+            <a
+              href="#"
+              onClick={(e) => e.preventDefault()}
+              className="hover:text-[#FF5500] transition-colors"
+            >
+              Sell on AuraMart
+            </a>
+          </div>
         </div>
       </div>
     </header>

@@ -34,7 +34,7 @@ const MainAppContent: React.FC = () => {
   const isModeratorRoute = currentPath.toLowerCase().startsWith('/moderator') || currentRole === 'moderator';
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-blue-500 selection:text-white flex flex-col">
+    <div className="min-h-screen bg-[#FAF7F5] text-slate-800 font-sans selection:bg-orange-500 selection:text-white flex flex-col">
       {/* Global Toast Notification */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-50 bg-slate-900 border border-blue-500/40 text-slate-100 text-xs font-bold px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2 animate-bounce">

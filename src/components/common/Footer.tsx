@@ -1,132 +1,124 @@
 import React from 'react';
-import { Zap, ShieldCheck, Truck, PhoneCall, Mail, MapPin } from 'lucide-react';
+import { ShieldCheck, Tag, Layers, Award, Phone, Mail } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-slate-950 border-t border-slate-800 text-slate-400 text-xs mt-16">
-      {/* Top Features Bar */}
-      <div className="border-b border-slate-800/80 py-8 bg-slate-900/40">
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-6 text-center md:text-left">
-          <div className="flex items-center gap-3 justify-center md:justify-start">
-            <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="font-bold text-white">100% Genuine Electronics</div>
-              <div className="text-slate-500 text-[11px]">Official Brand Warranty</div>
+    <footer className="mt-12">
+      {/* Top Features Ribbon Bar (Vibrant Orange Bar from Image 2) */}
+      <div className="bg-[#FF5500] text-white py-4">
+        <div className="auramart-container grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          <div className="flex items-center justify-center gap-2.5">
+            <ShieldCheck className="w-5 h-5" />
+            <div className="text-left">
+              <div className="font-extrabold text-xs">100% Authentic</div>
+              <div className="text-[10px] opacity-90">Verified sellers & genuine products</div>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 justify-center md:justify-start">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
-              <Truck className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="font-bold text-white">Pathao & Steadfast Dispatch</div>
-              <div className="text-slate-500 text-[11px]">24-48 Hours Express Delivery</div>
+          <div className="flex items-center justify-center gap-2.5">
+            <Tag className="w-5 h-5" />
+            <div className="text-left">
+              <div className="font-extrabold text-xs">Best Price</div>
+              <div className="text-[10px] opacity-90">Unbeatable deals every day</div>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 justify-center md:justify-start">
-            <div className="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center">
-              <PhoneCall className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="font-bold text-white">24/7 Customer Care</div>
-              <div className="text-slate-500 text-[11px]">Hotline: +880 1700-000000</div>
+          <div className="flex items-center justify-center gap-2.5">
+            <Layers className="w-5 h-5" />
+            <div className="text-left">
+              <div className="font-extrabold text-xs">Wide Range</div>
+              <div className="text-[10px] opacity-90">Thousands of categories & items</div>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 justify-center md:justify-start">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
-              <Zap className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="font-bold text-white">Automated PDF Invoices</div>
-              <div className="text-slate-500 text-[11px]">Instant Warranty Receipts</div>
+          <div className="flex items-center justify-center gap-2.5">
+            <Award className="w-5 h-5" />
+            <div className="text-left">
+              <div className="font-extrabold text-xs">Trusted Sellers</div>
+              <div className="text-[10px] opacity-90">100% Verified merchant stores</div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Main Footer Links */}
-      <div className="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-12 gap-8">
-        {/* Brand info (Col 5) */}
-        <div className="md:col-span-5 space-y-4">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white">
-              <Zap className="w-5 h-5 fill-white" />
+      {/* Main Footer Content */}
+      <div className="bg-[#141210] text-slate-300 py-10 text-xs">
+        <div className="auramart-container grid grid-cols-1 md:grid-cols-12 gap-8">
+          {/* Brand Info */}
+          <div className="md:col-span-5 space-y-3">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-[#FF5500] flex items-center justify-center text-white">
+                <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                  <path d="M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3zm7 17H5V8h14v12z" />
+                </svg>
+              </div>
+              <span className="text-xl font-black text-white">AuraMart</span>
             </div>
-            <span className="text-xl font-black text-white">ALVE SHOP</span>
+
+            <p className="text-slate-400 text-xs leading-relaxed max-w-sm">
+              Shop More, Sell More, Together. Bangladesh’s leading multi-vendor marketplace connecting verified local sellers with millions of happy buyers.
+            </p>
+
+            <div className="space-y-1.5 pt-2 text-slate-400">
+              <div className="flex items-center gap-2">
+                <Phone className="w-4 h-4 text-[#FF5500]" />
+                <span>Hotline: +880 16-11223344</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Mail className="w-4 h-4 text-[#FF5500]" />
+                <span>Support: support@auramart.bd</span>
+              </div>
+            </div>
           </div>
 
-          <p className="text-slate-400 leading-relaxed max-w-sm">
-            Bangladesh’s premier destination for original laptops, flagship smartphones, gaming consoles, smartwatches, and high-performance PC components.
-          </p>
-
-          <div className="space-y-1.5 text-slate-300">
-            <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-blue-400" />
-              <span>IDB Bhaban, Level 4, Agargaon, Dhaka</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Mail className="w-4 h-4 text-blue-400" />
-              <span>help@alveshop.com</span>
-            </div>
+          {/* Quick Links Column 1 */}
+          <div className="md:col-span-3 space-y-3">
+            <h4 className="text-xs font-bold text-white uppercase tracking-wider">Explore</h4>
+            <ul className="space-y-2 text-slate-400">
+              <li><a href="#" className="hover:text-[#FF5500] transition-colors">Shop</a></li>
+              <li><a href="#" className="hover:text-[#FF5500] transition-colors">Deals</a></li>
+              <li><a href="#" className="hover:text-[#FF5500] transition-colors">Best Sellers</a></li>
+              <li><a href="#" className="hover:text-[#FF5500] transition-colors">New Arrival</a></li>
+              <li><a href="#" className="hover:text-[#FF5500] transition-colors">Brands</a></li>
+            </ul>
           </div>
-        </div>
 
-        {/* Categories (Col 3) */}
-        <div className="md:col-span-3 space-y-3">
-          <h4 className="text-xs font-bold text-white uppercase tracking-wider">Top Categories</h4>
-          <ul className="space-y-2 text-slate-400">
-            <li><a href="#" className="hover:text-white transition-colors">Laptops & MacBooks</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">Flagship Smartphones</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">Sony PlayStation & Gaming</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">Smartwatches & Fitness Trackers</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">NVIDIA & PC Components</a></li>
-          </ul>
-        </div>
-
-        {/* Delivery Logistics Partners (Col 4) */}
-        <div className="md:col-span-4 space-y-3">
-          <h4 className="text-xs font-bold text-white uppercase tracking-wider">Logistics & Payment Partners</h4>
-          <p className="text-slate-400">
-            Integrated with automated API endpoints for fast tracking and secure delivery.
-          </p>
-
-          <div className="flex flex-wrap items-center gap-2 pt-2">
-            <div className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-rose-400 font-bold text-xs flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-rose-500" /> Pathao Courier
-            </div>
-            <div className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-amber-400 font-bold text-xs flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-amber-500" /> Steadfast Courier
-            </div>
-            <div className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-pink-400 font-bold text-xs">
-              bKash / Nagad
-            </div>
-            <div className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-emerald-400 font-bold text-xs">
-              Cash on Delivery
-            </div>
+          {/* Quick Links Column 2 */}
+          <div className="md:col-span-4 space-y-3">
+            <h4 className="text-xs font-bold text-white uppercase tracking-wider">Support & Account</h4>
+            <ul className="space-y-2 text-slate-400">
+              <li><a href="#" className="hover:text-[#FF5500] transition-colors">Trace Order</a></li>
+              <li><a href="#" className="hover:text-[#FF5500] transition-colors">Help Center</a></li>
+              <li><a href="#" className="hover:text-[#FF5500] transition-colors">My Account</a></li>
+              <li><a href="#" className="hover:text-[#FF5500] transition-colors">Wishlist</a></li>
+              <li>
+                <a
+                  href="/admin"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.history.pushState({}, '', '/admin');
+                    window.dispatchEvent(new PopStateEvent('popstate'));
+                  }}
+                  className="text-purple-400 hover:text-purple-300 font-bold underline"
+                >
+                  Admin Control Panel (/admin)
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
 
-      {/* Copyright */}
-      <div className="bg-slate-900/60 border-t border-slate-800/80 py-4 text-center text-slate-500 flex flex-wrap items-center justify-center gap-4">
-        <span>© {new Date().getFullYear()} Alve Shop Electronics. All Rights Reserved.</span>
-        <span>•</span>
-        <a
-          href="/admin"
-          onClick={(e) => {
-            e.preventDefault();
-            window.history.pushState({}, '', '/admin');
-            window.dispatchEvent(new PopStateEvent('popstate'));
-          }}
-          className="text-slate-400 hover:text-purple-400 font-semibold underline underline-offset-4 transition-colors"
-        >
-          Admin Portal (/admin)
-        </a>
+      {/* Bottom Orange Ribbon Copyright Bar */}
+      <div className="bg-[#FF5500] text-white py-2.5 text-[11px] font-bold">
+        <div className="auramart-container flex flex-col sm:flex-row items-center justify-between gap-2">
+          <span>Welcome to AuraMart Bd - Shop More, Sell More, Together</span>
+          <div className="flex items-center gap-4">
+            <a href="#" className="hover:underline">Trace Order</a>
+            <a href="#" className="hover:underline">Help Center</a>
+            <a href="#" className="hover:underline">Privacy Policy</a>
+          </div>
+        </div>
       </div>
     </footer>
   );
